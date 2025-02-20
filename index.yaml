@@ -41,6 +41,44 @@ entries:
     version: 0.98.0-SNAPSHOT
   - apiVersion: v2
     appVersion: 0.97.0
+    created: "2025-02-20T03:27:42.125538966Z"
+    dependencies:
+    - condition: couchdb.enabled
+      name: couchdb
+      repository: https://apache.github.io/couchdb-helm
+      version: 4.5.3
+    - condition: influxdb.enabled
+      name: influxdb
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.5.4
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 31.3.1
+    - condition: nats.enabled
+      name: nats
+      repository: https://nats-io.github.io/k8s/helm/charts
+      version: 1.2.10
+    - condition: pulsar.enabled
+      name: pulsar
+      repository: https://pulsar.apache.org/charts
+      version: 3.9.0
+    description: A Helm chart for Apache Streampipes..
+    digest: f2f147c40191c77363fa43d74a09cca77386d7d449c0aac04dc3cb331fbd5845
+    home: https://streampipes.apache.org
+    icon: https://avatars1.githubusercontent.com/u/33908576
+    keywords:
+    - iiot
+    - streampipes
+    - apache
+    name: streampipes
+    sources:
+    - https://github.com/what-is-a-theostack/helm-charts
+    urls:
+    - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.97.1/streampipes-0.97.1.tgz
+    version: 0.97.1
+  - apiVersion: v2
+    appVersion: 0.97.0
     created: "2025-02-20T02:10:37.889972879Z"
     dependencies:
     - condition: couchdb.enabled
@@ -77,4 +115,4 @@ entries:
     urls:
     - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.97.0/streampipes-0.97.0.tgz
     version: 0.97.0
-generated: "2025-02-20T02:10:37.889984711Z"
+generated: "2025-02-20T03:27:42.125554636Z"
