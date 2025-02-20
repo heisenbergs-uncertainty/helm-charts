@@ -39,7 +39,7 @@ spec:
           image: {{ include "streampipes.ui.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{ include "streampipes.ui.env" . | nindent 12 }}
+            {{- include "snippet.streampipes.proxy.env" . | nindent 12 }}
           ports:
           - name: http
             containerPort: {{ .Values.ui.containerPort }}
