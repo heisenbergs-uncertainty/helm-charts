@@ -1,0 +1,35 @@
+apiVersion: v1
+entries:
+  streampipes:
+  - apiVersion: v2
+    appVersion: 0.98.0-SNAPSHOT
+    created: "2025-02-20T01:26:25.087138122Z"
+    dependencies:
+    - condition: couchdb.enabled
+      name: couchdb
+      repository: https://apache.github.io/couchdb-helm
+      version: 4.5.3
+    - condition: influxdb.enabled
+      name: influxdb
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.5.4
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 31.3.1
+    - condition: nats.enabled
+      name: nats
+      repository: https://nats-io.github.io/k8s/helm/charts
+      version: 1.2.10
+    - condition: pulsar.enabled
+      name: pulsar
+      repository: https://pulsar.apache.org/charts
+      version: 3.9.0
+    description: A Helm chart for Apache Streampipes..
+    digest: 0fe25969858f85fa90da06bb7b84940a63d145c95bb93aade1ee3a04a4901edd
+    name: streampipes
+    type: application
+    urls:
+    - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.98.0-SNAPSHOT/streampipes-0.98.0-SNAPSHOT.tgz
+    version: 0.98.0-SNAPSHOT
+generated: "2025-02-20T01:26:25.0871479Z"
