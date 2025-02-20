@@ -1,0 +1,18 @@
+dependencies:
+- name: couchdb
+  repository: https://apache.github.io/couchdb-helm
+  version: 4.5.3
+- name: influxdb
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.5.4
+- name: kafka
+  repository: https://charts.bitnami.com/bitnami
+  version: 31.3.1
+- name: nats
+  repository: https://nats-io.github.io/k8s/helm/charts
+  version: 1.2.10
+- name: pulsar
+  repository: https://pulsar.apache.org/charts
+  version: 3.9.0
+digest: sha256:f89e0d183ac4cac76eceb331a13a4ec524be5839e127403ca849bb6f14c95e44
+generated: "2025-02-19T18:23:59.272982-06:00"

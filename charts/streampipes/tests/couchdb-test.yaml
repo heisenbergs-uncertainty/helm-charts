@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-command-pod
+spec:
+  containers:
+    - name: test-container
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          "for i in $(seq 1 300); do nc -zvw1 couchdb-svc-couchdb.couchdb.svc.cluster.local 5984 && exit 0; sleep 3; done; exit 1",
+        ]
+  restartPolicy: Never

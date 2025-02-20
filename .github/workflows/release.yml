@@ -1,0 +1,41 @@
+name: Update Helm Repository Index
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repos
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v2
+
+      - name: Add Helm Chart Dependencies
+        run: |
+          helm repo add couchdb https://apache.github.io/couchdb-helm
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add nats https://nats-io.github.io/k8s/helm/charts
+          helm repo add apache https://pulsar.apache.org/charts
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.7.0
+        with:
+          charts_dir: charts
+          config: cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.GH_PAT }}"

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "streampipes.backend.fullname" . }}-pvc
+  labels:
+    {{- include "streampipes.backend.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "streampipes.backend.selectorLabels" . | nindent 4 }}
+  storageClassName: {{ .Values.backend.persistence.storageClass }}
+  accessModes: 
+    {{- range .Values.backend.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.backend.persistence.size | quote }}
