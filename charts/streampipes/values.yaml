@@ -215,6 +215,10 @@ streampipes:
     # Can be kafka, nats, pulsar
     type: "kafka"
 
+proxy: http://proxy.cat.com:80
+
+noProxy: 127.0.0.0/8\\,10.0.0.0/8\\,cattle-system.svc\\,172.16.0.0/12\\,10.223.0.0/16\\,192.168.0.0/16\\,.svc\\,.cluster.local
+
 kafka:
   enabled: false
 

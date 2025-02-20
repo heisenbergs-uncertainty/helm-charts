@@ -36,6 +36,15 @@
 {{- end }}
 {{- end }}
 
+{{- define "snippet.streampipes.proxy.env" -}}
+- name: HTTP_PROXY
+  value: {{ .Values.proxy.proxy | quote }}
+- name: HTTPS_PROXY
+  value: {{ .Values.proxy.proxy | quote }}
+- name: NO_PROXY
+  value: {{ .Values.proxy.noProxy | quote }}
+{{- end }}
+
 {{- define "snippet.streampipes.core.env"}}
 - name: SP_HTTP_SERVER_ADAPTER_ENDPOINT
   value: {{ include "streampipes.extensions.iiot.service" . }}
@@ -226,11 +235,13 @@
 {{ include "snippet.streampipes.broker.env" . }}
 {{ include "snippet.monitoring.env" . }}
 {{ include "snippet.influxdb.env" . }}
+{{ include "snippet.streampipes.proxy.env" . }}
 {{- end }}
 
 {{- define "snippet.streampipes.ui.env" -}}
 {{ include "snippet.streampipes.backend.env" . }}
 {{ include "snippet.streampipes.core.env" . }}
+{{ include "snippet.streampipes.proxy.env" . }}
 {{- end }}
 
 {{- define "snippet.streampipes.extensions.env" -}}
@@ -239,5 +250,6 @@
 {{ include "snippet.streampipes.secret.client" . }}
 {{ include "snippet.monitoring.env" . }}
 {{ include "snippet.influxdb.env" . }}
+{{ include "snippet.streampipes.proxy.env" . }}
 {{- end }}
 
