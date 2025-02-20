@@ -38,6 +38,8 @@ spec:
             {{- toYaml .Values.ui.securityContext | nindent 12 }} 
           image: {{ include "streampipes.ui.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{ include "streampipes.ui.env" . | nindent 12 }}
           ports:
           - name: http
             containerPort: {{ .Values.ui.containerPort }}
