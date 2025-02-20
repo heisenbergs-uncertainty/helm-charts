@@ -1,6 +1,14 @@
 apiVersion: v2
 name: streampipes
 description: A Helm chart for Apache Streampipes..
+home: https://streampipes.apache.org
+keywords:
+  - iiot
+  - streampipes
+  - apache
+sources:
+  - https://github.com/what-is-a-theostack/helm-charts
+icon: https://avatars1.githubusercontent.com/u/33908576
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
