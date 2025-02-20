@@ -38,11 +38,11 @@
 
 {{- define "snippet.streampipes.proxy.env" -}}
 - name: HTTP_PROXY
-  value: {{ .Values.proxy.proxy | quote }}
+  value: {{ .Values.proxy | quote }}
 - name: HTTPS_PROXY
-  value: {{ .Values.proxy.proxy | quote }}
+  value: {{ .Values.proxy | quote }}
 - name: NO_PROXY
-  value: {{ .Values.proxy.noProxy | quote }}
+  value: {{ .Values.noProxy | quote }}
 {{- end }}
 
 {{- define "snippet.streampipes.core.env"}}
