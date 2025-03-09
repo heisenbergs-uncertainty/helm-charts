@@ -1,7 +1,4 @@
-{{/* vim: set filetype=mustache: */}}
-{{/*
-Expand the name of the chart.
-*/}}
+{{/* Expand the name of the chart. */}}
 {{- define "streampipes.name" -}}
   {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
@@ -30,6 +27,20 @@ Create chart name and version as used by the chart label.
   {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "streampipes.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+{{- default (include "streampipes.fullname" .) .Values.serviceAccount.name | quote }}
+{{- else -}}
+{{- default "default" .Values.serviceAccount.name | quote }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+
+*/}}
 
 {{/*
 Common labels.
@@ -51,16 +62,6 @@ app.kubernetes.io/name: {{ include "streampipes.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "streampipes.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-{{- default (include "streampipes.fullname" .) .Values.serviceAccount.name | quote }}
-{{- else -}}
-{{- default "default" .Values.serviceAccount.name | quote }}
-{{- end -}}
-{{- end -}}
 
 {{/*
 Generate the fullname of the couchdb subchart
