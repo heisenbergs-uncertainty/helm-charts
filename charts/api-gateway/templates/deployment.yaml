@@ -14,6 +14,10 @@ spec:
       labels:
         {{- include "api-gateway.selectorLabels" . | nindent 8 }}
     spec:
+      imagePullSecrets:
+        {{- range .Values.image.pullSecrets }}
+        - name:  {{ .name }}
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

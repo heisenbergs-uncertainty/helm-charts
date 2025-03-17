@@ -1,9 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: your-docker-repo/api-gateway
+  repository: heisenberg-oss/api-gateway
   pullPolicy: IfNotPresent
   tag: "latest"
+  pullSecrets: []
 
 service:
   type: ClusterIP
