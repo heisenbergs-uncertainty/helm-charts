@@ -48,7 +48,7 @@ spec:
         ports:
           - containerPort: {{ .Values.customExtensions.containerPort }}
         env:
-          {{- include "snippet.streampipes.custom-extensions.env" . | nindent 12 }}
+          {{- include "snippet.streampipes.extensions.env" . | nindent 12 }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.customExtensions.containerPort }}
