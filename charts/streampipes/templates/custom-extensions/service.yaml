@@ -1,0 +1,17 @@
+{{- if .Values.customExtensions.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "streampipes.custom-extensions.fullname" . }}
+  labels:
+    {{- include "streampipes.custom-extensions.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.customExtensions.service.type }}
+  selector:
+    {{ include "streampipes.custom-extensions.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: main
+      protocol: TCP
+      port: {{ .Values.customExtensions.service.port }}
+      targetPort: {{ .Values.customExtensions.containerPort }}
+{{- end }}

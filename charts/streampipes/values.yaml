@@ -353,6 +353,60 @@ externalInfluxdb:
 
   adminTokenSecretKey: admin-user-token
 
+customExtensions:
+  enabled: false
+
+  registry: docker.registry.com
+  image: custom-extensions-jvm
+  tag:
+    # Use this if you need to override the name of the ui container image
+    image: extensions-all-jvm
+
+    # Override the backend image tag - defaults to AppVersion
+    tag: ""
+
+    replicaCount: 1
+
+    resources: {}
+
+    # This is for setting Kubernetes Annotations to a Pod.
+    # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+    podAnnotations: {}
+    # This is for setting Kubernetes Labels to a Pod.
+    # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+    podLabels: {}
+
+    podSecurityContext:
+      {}
+      # fsGroup: 2000
+
+    securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 0
+
+    restartPolicy: "Always"
+
+    initialDelaySeconds: 60
+
+    failureThreshold: 30
+
+    periodSeconds: 30
+
+    containerPort: 8090
+
+    service:
+      port: 8090
+      type: ClusterIP
+
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 # service:
 # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types

@@ -115,6 +115,11 @@ Generate the fullname of the pulsar subchart
 {{- printf "%s/%s:%s" .Values.image.registry .Values.extensions.iiot.image (.Values.extensions.iiot.tag | default .Chart.AppVersion) }}
 {{- end}}
 
+{{/* Generate extensions image url */}}
+{{- define "streampipes.custom-extensions.image" -}}
+{{- printf "%s/%s:%s" .Values.customExtensions.registry .Values.customExtensions.image (.Values.customExtensions.tag | default .Chart.AppVersion) }}
+{{- end}}
+
 {{/*
 Generate the initContainer check for couchDB 
 */}}

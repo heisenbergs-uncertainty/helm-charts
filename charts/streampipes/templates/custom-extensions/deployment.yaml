@@ -1,0 +1,70 @@
+{{- if .Values.customExtensions.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "streampipes.custom-extensions.fullname" . }}
+  labels:
+    {{- include "streampipes.custom-extensions.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.customExtensions.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "streampipes.custom-extensions.selectorLabels" . | nindent 6 }}
+  strategy: 
+    {{- toYaml .Values.customExtensions.updateStrategy | nindent 4 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        random-annotation: {{ randAlphaNum 10 | lower }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "streampipes.custom-extensions.selectorLabels" . | nindent 8 }}
+        {{- if .Values.customExtensions.podLabels }}
+        {{- toYaml .Values.customExtensions.podLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      serviceAccountName: {{ include "streampipes.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.customExtensions.securityContext | nindent 8 }} 
+      initContainers:
+        - name: init-wait-{{ include "streampipes.backend.fullname" . }}
+          image: alpine
+          command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 {{ include "streampipes.backend.service" . }} {{ .Values.backend.service.port }} && exit 0 || sleep 3; done; exit 1"]
+      hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+          - {{ include "streampipes.custom-extensions.fullname" . }}
+      restartPolicy: {{ .Values.customExtensions.restartPolicy }}
+      containers:
+      - name: {{ include  "streampipes.custom-extensions.fullname" . }}
+        image: {{ include "streampipes.custom-extensions.image" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: {{ .Values.customExtensions.containerPort }}
+        env:
+          {{- include "snippet.streampipes.custom-extensions.env" . | nindent 12 }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.customExtensions.containerPort }}
+          initialDelaySeconds: {{ .Values.customExtensions.initialDelaySeconds }}
+          periodSeconds: {{ .Values.customExtensions.periodSeconds }}
+          failureThreshold: {{ .Values.customExtensions.failureThreshold }}
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.customExtensions.containerPort }}
+          initialDelaySeconds: {{ .Values.customExtensions.initialDelaySeconds }}
+          periodSeconds: {{ .Values.customExtensions.periodSeconds }}
+          failureThreshold: {{ .Values.customExtensions.failureThreshold }}
+        startupProbe:
+          tcpSocket:
+            port: {{ .Values.customExtensions.containerPort }}
+          initialDelaySeconds: {{ .Values.customExtensions.initialDelaySeconds }}
+          periodSeconds: {{ .Values.customExtensions.periodSeconds }}
+          failureThreshold: {{ .Values.customExtensions.failureThreshold }}
+ {{- end }} 
