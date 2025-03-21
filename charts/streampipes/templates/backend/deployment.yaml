@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "streampipes.backend.fullname" . }}
-  namespace: {{ include "streampipes.backend.namespace" . }}
   labels:
     {{- include "streampipes.backend.labels" . | nindent 4 }}
 spec:
