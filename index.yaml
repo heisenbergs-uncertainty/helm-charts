@@ -3,6 +3,22 @@ entries:
   iot-api-gateway:
   - apiVersion: v2
     appVersion: 0.1.1
+    created: "2025-03-25T18:50:30.381543996Z"
+    description: A Helm chart for SPM Oil & Gas Iot API Gateway
+    digest: 13042d93bf9d4b2f0e78c895303ee4f2dfacfd3095878b9006d116ba472d7ca0
+    icon: https://avatars1.githubusercontent.com/u/33908576
+    keywords:
+    - iiot
+    - rest
+    - api
+    name: iot-api-gateway
+    sources:
+    - https://github.com/what-is-a-theostack/helm-charts
+    urls:
+    - https://github.com/heisenbergs-uncertainty/helm-charts/releases/download/iot-api-gateway-0.1.4/iot-api-gateway-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 0.1.1
     created: "2025-03-25T18:24:02.252274202Z"
     description: A Helm chart for SPM Oil & Gas Iot API Gateway
     digest: 4216fdd0910fc2afb12b62e6c22ceb697c55b39c38d4914dc505238cafdb00ef
@@ -430,4 +446,4 @@ entries:
     urls:
     - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.97.0/streampipes-0.97.0.tgz
     version: 0.97.0
-generated: "2025-03-25T18:24:02.252314136Z"
+generated: "2025-03-25T18:50:30.38158391Z"
