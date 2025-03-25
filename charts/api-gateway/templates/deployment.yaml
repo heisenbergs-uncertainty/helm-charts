@@ -27,17 +27,23 @@ spec:
           env:
             - name: PORT
               value: "8080"
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 8080
-            initialDelaySeconds: 3
-            periodSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /readiness
-              port: 8080
-            initialDelaySeconds: 3
-            periodSeconds: 3
+            - name: NO_PROXY
+              value: "{{ .Values.noProxy }}"
+            - name: HTTP_PROXY
+              value: "{{ .Values.proxy}}"
+            - name: HTTPS_PROXY
+              value: "{{ .Values.proxy }}"
+          {{/* livenessProbe: */}}
+          {{/*   httpGet: */}}
+          {{/*     path: /healthz */}}
+          {{/*     port: 8080 */}}
+          {{/*   initialDelaySeconds: 3 */}}
+          {{/*   periodSeconds: 3 */}}
+          {{/* readinessProbe: */}}
+          {{/*   httpGet: */}}
+          {{/*     path: /readiness */}}
+          {{/*     port: 8080 */}}
+          {{/*   initialDelaySeconds: 3 */}}
+          {{/*   periodSeconds: 3 */}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

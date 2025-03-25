@@ -18,6 +18,9 @@ ingress:
       paths: []
   tls: []
 
+proxy:
+noProxy:
+
 resources: {}
 nodeSelector: {}
 tolerations: []
