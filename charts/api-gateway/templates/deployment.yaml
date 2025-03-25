@@ -28,17 +28,19 @@ spec:
             - name: PORT
               value: "8080"
             - name: NO_PROXY
-              value: "{{ .Values.noProxy }}"
+              value: "{{ .Values.env.noProxy }}"
             - name: HTTP_PROXY
               value: "{{ .Values.proxy}}"
             - name: HTTPS_PROXY
               value: "{{ .Values.proxy }}"
-          {{/* livenessProbe: */}}
-          {{/*   httpGet: */}}
-          {{/*     path: /healthz */}}
-          {{/*     port: 8080 */}}
-          {{/*   initialDelaySeconds: 3 */}}
-          {{/*   periodSeconds: 3 */}}
+            - name: DEBUG
+              value: {{ .Values.debug }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
           {{/* readinessProbe: */}}
           {{/*   httpGet: */}}
           {{/*     path: /readiness */}}

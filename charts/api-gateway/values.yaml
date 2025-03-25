@@ -21,6 +21,8 @@ ingress:
 proxy:
 noProxy:
 
+debug: false
+
 resources: {}
 nodeSelector: {}
 tolerations: []
