@@ -10,7 +10,7 @@ spec:
   selector:
     {{ include "streampipes.custom-extensions.selectorLabels" . | nindent 4 }}
   ports:
-    - name: main
+    - name: http
       protocol: TCP
       port: {{ .Values.customExtensions.service.port }}
       targetPort: {{ .Values.customExtensions.containerPort }}

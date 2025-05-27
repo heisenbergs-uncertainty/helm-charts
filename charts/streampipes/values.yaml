@@ -330,7 +330,7 @@ serviceAccount:
   create: true
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
-  # Annotations to add to the service account
+  # Annotations to add to the service aecount
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
@@ -396,10 +396,10 @@ customExtensions:
 
   periodSeconds: 30
 
-  containerPort: 8090
+  containerPort: 8005
 
   service:
-    port: 8090
+    port: 8005
     type: ClusterIP
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
