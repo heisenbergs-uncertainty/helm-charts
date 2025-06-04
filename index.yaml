@@ -81,6 +81,16 @@ entries:
     urls:
     - https://github.com/heisenbergs-uncertainty/helm-charts/releases/download/iot-api-gateway-0.1.1/iot-api-gateway-0.1.1.tgz
     version: 0.1.1
+  iotgo-app:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-06-04T16:12:58.702815301Z"
+    description: A Helm chart for deploying the IoTGo backend and frontend applications.
+    digest: 157a58221a4d513857f8bb65ba3161310b670495281a3075d680f156f43012db
+    name: iotgo-app
+    urls:
+    - https://github.com/heisenbergs-uncertainty/helm-charts/releases/download/iotgo-app-0.1.0/iotgo-app-0.1.0.tgz
+    version: 0.1.0
   streampipes:
   - apiVersion: v2
     appVersion: 0.98.0-SNAPSHOT
@@ -500,4 +510,4 @@ entries:
     urls:
     - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.97.0/streampipes-0.97.0.tgz
     version: 0.97.0
-generated: "2025-05-27T15:04:37.432508122Z"
+generated: "2025-06-04T16:12:58.702867178Z"
