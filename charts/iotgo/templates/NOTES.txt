@@ -1,0 +1,17 @@
+Thank you for installing {{ include "iotgo-app.fullname" . }}!
+
+Your IoTGo applications have been deployed.
+
+To access the frontend, if Ingress is enabled, please use the configured host:
+  http://{{ (index .Values.ingress.hosts 0).host }}
+
+If Ingress is not enabled, you might need to use port-forwarding:
+  kubectl port-forward svc/frontend-service 80:80
+
+The backend API is accessible internally via 'backend-service:8080'.
+
+Remember to ensure your Kubernetes Secrets ({{ .Values.secrets.dbSecretName }} and {{ .Values.secrets.appSecretName }}) are properly configured with your database and application secrets.
+
+For more information:
+- Backend: http://backend-service:8080/swagger/index.html
+- Kubernetes Dashboard (if installed): Check your cluster's dashboard for resource status.

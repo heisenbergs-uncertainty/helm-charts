@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service # This name will be used by the Ingress
+  labels:
+    app.kubernetes.io/component: frontend
+    {{- include "iotgo-app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - port: {{ .Values.frontend.service.port }}
+      targetPort: {{ .Values.frontend.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/component: frontend
+    {{- include "iotgo-app.selectorLabels" . | nindent 4 }}
