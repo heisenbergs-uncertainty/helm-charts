@@ -214,13 +214,13 @@ extensions:
 
 streampipes:
   ingress:
-  enabled: false
-  className: nginx
-  host: # Enable TLS for ingress. If true, a tls block will be added to the ingress resource.
+    enabled: false
+    className: nginx
+    host: # Enable TLS for ingress. If true, a tls block will be added to the ingress resource.
 
-  tls: false
+    tls: false
   # Name of the Kubernetes secret containing the TLS certificate. If not set, defaults to <release>-ui-tls.
-  tlsSecretName: ""
+    tlsSecretName: ""
 
   # if secret is not set, will generate secrets into '{release-name}-secrets'
   secrets:
