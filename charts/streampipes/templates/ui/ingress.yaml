@@ -1,16 +1,16 @@
-{{- if .Values.streampipes.ingress.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "streampipes.fullname" . }}-ingress
-  {{- with .Values.streampipes.ingress.annotations }}
+  {{- if .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: {{ .Values.streampipes.ingress.className}}
+  ingressClassName: {{ .Values.ingress.className}}
   rules:
-  - host: {{ .Values.streampipes.ingress.host }}
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /
@@ -27,4 +27,10 @@ spec:
             name: {{ include "streampipes.backend.fullname" . }}
             port:
               number: {{ .Values.backend.service.port }}
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ .Values.ingress.tlsSecretName | default (printf "%s-tls" (include "streampipes.ui.fullname" .)) }}
+  {{- end }}
 {{- end }}

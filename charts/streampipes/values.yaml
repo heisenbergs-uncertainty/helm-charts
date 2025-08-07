@@ -75,9 +75,7 @@ backend:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
+  podSecurityContext: {} # fsGroup: 2000
 
   securityContext: {}
   # capabilities:
@@ -111,7 +109,7 @@ backend:
   # TODO: Add ability to reference existing claim
   persistence:
     accessModes:
-      - ReadWriteOnce
+    - ReadWriteOnce
     annotations": {}
     storageClass: "standard"
     path: "/Users/matthewholden/streampipes-k8s"
@@ -135,9 +133,7 @@ ui:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
+  podSecurityContext: {} # fsGroup: 2000
 
   securityContext: {}
   # capabilities:
@@ -187,9 +183,7 @@ extensions:
     # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
     podLabels: {}
 
-    podSecurityContext:
-      {}
-      # fsGroup: 2000
+    podSecurityContext: {} # fsGroup: 2000
 
     securityContext: {}
     # capabilities:
@@ -220,9 +214,13 @@ extensions:
 
 streampipes:
   ingress:
-    enabled: false
-    className: nginx
-    host:
+  enabled: false
+  className: nginx
+  host: # Enable TLS for ingress. If true, a tls block will be added to the ingress resource.
+
+  tls: false
+  # Name of the Kubernetes secret containing the TLS certificate. If not set, defaults to <release>-ui-tls.
+  tlsSecretName: ""
 
   # if secret is not set, will generate secrets into '{release-name}-secrets'
   secrets:
@@ -247,9 +245,11 @@ streampipes:
     # If not empty, must be at least 35 characters long
     secret:
 
+
   encryption:
     # If left empty will generate a random secret
     passcode:
+
 
   broker:
     # Set the message broker for default communication in streampipes
@@ -296,7 +296,7 @@ couchdb:
   persistentVolume:
     enabled: "false"
 
-    accessMode: ["ReadWriteOnce"]
+    accessMode: [ "ReadWriteOnce" ]
 
     size: "10Gi"
 
@@ -314,8 +314,8 @@ externalCouchdb:
   cookieAuthSecret: cookie
   erlangCookie: "1234"
   # Use an existing secret for the couchdb password
-  existingSecret:
-  # The key in the secrt containing the couchdb user
+  existingSecret: # The key in the secrt containing the couchdb user
+
   adminUsernameKey: adminUsername
   # The key in the secret containing the couchdb password
   adminPasswordKey: adminPassword
@@ -347,6 +347,7 @@ externalInfluxdb:
     password:
     token:
 
+
   existingSecret: influxdb-secret
 
   adminPasswordSecretKey: admin-user-password
@@ -371,9 +372,7 @@ customExtensions:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
+  podSecurityContext: {} # fsGroup: 2000
 
   securityContext: {}
   # capabilities:

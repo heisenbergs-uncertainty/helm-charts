@@ -84,3 +84,11 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+keel:
+  # keel policy (all/major/minor/patch/force)
+  policy: all
+  # images to track and update
+  images:
+    - repository: image.repository # [1]
+      tag: image.tag # [2]
