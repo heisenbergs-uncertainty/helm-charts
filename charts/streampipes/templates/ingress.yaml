@@ -20,7 +20,7 @@ spec:
             port:
               number: {{ .Values.ui.service.port }}
       - path: /streampipes-backend(/|$)(.*)
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ include "streampipes.backend.fullname" . }}
