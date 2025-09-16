@@ -29,6 +29,10 @@ spec:
       serviceAccountName: {{ include "streampipes.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.securityContext | nindent 8 }}
+      {{- with .Values.ui.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
       initContainers:
         {{- include "streampipes.initContainer" . | nindent 8 }}
       restartPolicy: {{ .Values.ui.restartPolicy }}

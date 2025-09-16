@@ -92,6 +92,10 @@ backend:
 
   restartPolicy: "Always"
 
+  # Tolerations for pod assignment
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  tolerations: []
+
   # Turn this up if using couchDB included with helm chart to allow time for couchDB to spin up
   # Turn down if couchdb is already deployed as it will only slow down the rollout
   initialDelaySeconds: 15
@@ -150,6 +154,10 @@ ui:
 
   restartPolicy: "Always"
 
+  # Tolerations for pod assignment
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  tolerations: []
+
   initialDelaySeconds: 60
 
   failureThreshold: 30
@@ -199,6 +207,10 @@ extensions:
         maxUnavailable: 0
 
     restartPolicy: "Always"
+
+    # Tolerations for pod assignment
+    # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+    tolerations: []
 
     initialDelaySeconds: 60
 
@@ -379,6 +391,10 @@ customExtensions:
       maxUnavailable: 0
 
   restartPolicy: "Always"
+
+  # Tolerations for pod assignment
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  tolerations: []
 
   initialDelaySeconds: 60
 

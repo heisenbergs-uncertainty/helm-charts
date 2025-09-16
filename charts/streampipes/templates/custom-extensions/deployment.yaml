@@ -32,6 +32,10 @@ spec:
       serviceAccountName: {{ include "streampipes.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.customExtensions.securityContext | nindent 8 }} 
+      {{- with .Values.customExtensions.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
       initContainers:
         - name: init-wait-{{ include "streampipes.backend.fullname" . }}
           image: alpine

@@ -29,6 +29,10 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       serviceAccountName: {{ include "streampipes.serviceAccountName" . }}
+      {{- with .Values.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
       initContainers:
         {{- include "streampipes.initContainer" . | nindent 8 }}
       hostAliases:
