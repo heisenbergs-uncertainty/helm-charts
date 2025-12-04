@@ -16,7 +16,23 @@ global:
   #   - pullSecret2
   imagePullSecrets: []
 
-# this  is to override the chart name.
+  # Global DNS policy for all pods
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+  # Options: Default, ClusterFirst, ClusterFirstWithHostNet, None
+  # Can be overridden per-component (e.g., backend.dnsPolicy)
+  dnsPolicy: ""
+
+  # Global DNS configuration for all pods
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+  # Can be overridden per-component (e.g., backend.dnsConfig)
+  dnsConfig: {}
+  # nameservers:
+  #   - 0.0.0.0
+  # options:
+  #   - name: ndots
+  #     value: "5"
+
+  # this  is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
 
@@ -96,6 +112,20 @@ backend:
   # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   tolerations: []
 
+  # DNS policy for pod (overrides global.dnsPolicy if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+  # Options: Default, ClusterFirst, ClusterFirstWithHostNet, None
+  dnsPolicy: ""
+
+  # DNS configuration for pod (overrides global.dnsConfig if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+  dnsConfig: {}
+  # nameservers:
+  #   - 0.0.0.0
+  # options:
+  #   - name: ndots
+  #     value: "5"
+
   # Turn this up if using couchDB included with helm chart to allow time for couchDB to spin up
   # Turn down if couchdb is already deployed as it will only slow down the rollout
   initialDelaySeconds: 15
@@ -158,6 +188,20 @@ ui:
   # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   tolerations: []
 
+  # DNS policy for pod (overrides global.dnsPolicy if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+  # Options: Default, ClusterFirst, ClusterFirstWithHostNet, None
+  dnsPolicy: ""
+
+  # DNS configuration for pod (overrides global.dnsConfig if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+  dnsConfig: {}
+  # nameservers:
+  #   - 0.0.0.0
+  # options:
+  #   - name: ndots
+  #     value: "5"
+
   initialDelaySeconds: 60
 
   failureThreshold: 30
@@ -211,6 +255,20 @@ extensions:
     # Tolerations for pod assignment
     # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
     tolerations: []
+
+    # DNS policy for pod (overrides global.dnsPolicy if set)
+    # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+    # Options: Default, ClusterFirst, ClusterFirstWithHostNet, None
+    dnsPolicy: ""
+
+    # DNS configuration for pod (overrides global.dnsConfig if set)
+    # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+    dnsConfig: {}
+    # nameservers:
+    #   - 0.0.0.0
+    # options:
+    #   - name: ndots
+    #     value: "5"
 
     initialDelaySeconds: 60
 
@@ -395,6 +453,20 @@ customExtensions:
   # Tolerations for pod assignment
   # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   tolerations: []
+
+  # DNS policy for pod (overrides global.dnsPolicy if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+  # Options: Default, ClusterFirst, ClusterFirstWithHostNet, None
+  dnsPolicy: ""
+
+  # DNS configuration for pod (overrides global.dnsConfig if set)
+  # ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+  dnsConfig: {}
+  # nameservers:
+  #   - 0.0.0.0
+  # options:
+  #   - name: ndots
+  #     value: "5"
 
   initialDelaySeconds: 60
 

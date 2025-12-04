@@ -33,6 +33,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 6 }}
       {{- end }}
+      {{- if or .Values.ui.dnsPolicy .Values.global.dnsPolicy }}
+      dnsPolicy: {{ .Values.ui.dnsPolicy | default .Values.global.dnsPolicy }}
+      {{- end }}
+      {{- with .Values.ui.dnsConfig | default .Values.global.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
         {{- include "streampipes.initContainer" . | nindent 8 }}
       restartPolicy: {{ .Values.ui.restartPolicy }}

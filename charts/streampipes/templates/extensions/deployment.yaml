@@ -35,6 +35,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 6 }}
       {{- end }}
+      {{- if or .Values.extensions.iiot.dnsPolicy .Values.global.dnsPolicy }}
+      dnsPolicy: {{ .Values.extensions.iiot.dnsPolicy | default .Values.global.dnsPolicy }}
+      {{- end }}
+      {{- with .Values.extensions.iiot.dnsConfig | default .Values.global.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: init-wait-{{ include "streampipes.backend.fullname" . }}
           image: alpine
