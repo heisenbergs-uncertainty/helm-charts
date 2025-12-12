@@ -1,0 +1,23 @@
+apiVersion: v2
+name: timescaledb
+description: TimescaleDB - High-performance time-series database built on PostgreSQL
+type: application
+version: 1.0.0
+appVersion: "pg17"
+home: https://www.timescale.com/
+sources:
+  - https://github.com/timescale/timescaledb
+maintainers:
+  - name: TimescaleDB Team
+    email: support@timescale.com
+  - name: Matthew Holden
+    email: matthewreedholden@icloud.com
+keywords:
+  - timescale
+  - timescaledb
+  - postgresql
+  - time-series
+  - database
+  - analytics
+annotations:
+  category: Database

@@ -1,0 +1,252 @@
+# Default values for timescale.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# TimescaleDB configuration
+replicaCount: 1
+
+image:
+  repository: timescale/timescaledb-ha
+  pullPolicy: IfNotPresent
+  tag: "pg17"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Service Account configuration
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Pod annotations
+podAnnotations: {}
+
+# Pod security context
+podSecurityContext:
+  fsGroup: 1000
+
+# Shared memory configuration
+# PostgreSQL uses shared memory for shared_buffers and other operations
+# By default, Docker/Kubernetes provides only 64MB which may be insufficient
+# Set this to at least the size of shared_buffers, typically 25-40% of total memory
+shm:
+  enabled: true
+  # Size of /dev/shm - should be >= shared_buffers
+  # Recommended: 2x shared_buffers or 25-50% of pod memory
+  size: 4Gi
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 5432
+
+# Persistence configuration
+persistence:
+  enabled: true
+  # storageClass: ""        # Use the default storage class
+  # storageClass: "fast"    # Use a specific storage class
+  # storageClass: "-"       # Disable dynamic provisioning (use existing PVs)
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  # mountPath: /var/lib/postgresql/data
+
+  # Resources configuration
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Autoscaling configuration (disabled by default for StatefulSet)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+  # Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Prometheus monitoring configuration
+monitoring:
+  enabled: false
+  # PostgreSQL exporter configuration
+  postgresExporter:
+    image:
+      repository: prometheuscommunity/postgres-exporter
+      tag: "v0.15.0"
+      pullPolicy: IfNotPresent
+    # Port for postgres exporter metrics
+    port: 9187
+    # Resources for postgres exporter
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 50m
+      #   memory: 64Mi
+
+  # ServiceMonitor for Prometheus Operator
+  serviceMonitor:
+    enabled: false
+    # Namespace where ServiceMonitor will be created
+    namespace: ""
+    # Labels to add to ServiceMonitor
+    labels: {}
+    # Scrape interval
+    interval: 30s
+    # Scrape timeout
+    scrapeTimeout: 10s
+    # Additional labels for metrics
+    targetLabels: []
+    # Metric relabeling configs
+    metricRelabelings: []
+    # Relabeling configs
+    relabelings: []
+
+# PgBouncer configuration for connection pooling
+pgbouncer:
+  # Enable PgBouncer connection pooling
+  enabled: true
+  # Number of PgBouncer replicas
+  replicaCount: 2
+
+  image:
+    repository: edoburu/pgbouncer
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+  # PgBouncer service configuration
+  service:
+    type: ClusterIP
+    port: 5432
+
+  # PgBouncer resource limits
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  # PgBouncer configuration settings
+  config:
+    # Pool mode: session, transaction, or statement
+    poolMode: transaction
+    # Maximum connections per user/database pair
+    maxClientConn: 1000
+    # Default pool size (number of server connections to allow per user/database pair)
+    defaultPoolSize: 25
+    # Minimum pool size
+    minPoolSize: 10
+    # Reserve pool size (how many additional connections to allow)
+    reservePoolSize: 5
+    # Maximum DB connections per pool
+    maxDbConnections: 100
+    # Maximum user connections
+    maxUserConnections: 100
+    # Server idle timeout (seconds)
+    serverIdleTimeout: 600
+    # Server lifetime (seconds)
+    serverLifetime: 3600
+    # Server connect timeout (seconds)
+    serverConnectTimeout: 15
+    # Query timeout (seconds)
+    queryTimeout: 0
+    # Client idle timeout (seconds)
+    clientIdleTimeout: 0
+    # Log connections
+    logConnections: 1
+    # Log disconnections
+    logDisconnections: 1
+    # Log pooler errors
+    logPoolerErrors: 1
+    # Stats period (seconds)
+    statsPeriod: 60
+    # Verbose logging level (0-2)
+    verbose: 0
+
+  # Additional custom pgbouncer.ini settings
+  # These will be appended to the generated configuration
+  customConfig: ""
+
+  # Pod annotations
+  podAnnotations: {}
+
+  # Node selector
+  nodeSelector: {}
+
+  # Tolerations
+  tolerations: []
+
+  # Affinity
+  affinity: {}
+
+# PostgreSQL configuration with monitoring enhancements
+postgres:
+  user: postgres
+  password: postgres
+  database: postgres
+  port: 5432
+  # PGDATA path - where PostgreSQL data is stored
+  dataPath: /var/lib/postgresql/data/pgdata
+  # Skip automatic TimescaleDB tuning to use custom parameters
+  # Set to false to allow timescaledb_tune to auto-configure based on available resources
+  skipAutoTune: false
+  # Enable detailed monitoring stats
+  monitoring:
+    # Enable pg_stat_statements extension for query performance monitoring
+    enablePgStatStatements: true
+    # Track I/O timing for better disk performance insights
+    trackIoTiming: true
+    # Track functions for function call statistics
+    trackFunctions: "all"
+    # Log statement duration (in milliseconds, 0 = disabled)
+    logMinDurationStatement: 1000
+  parameters:
+    # Custom PostgreSQL/TimescaleDB config for memory optimization
+    # Caches frequently accessed data; set to ~15-25% of pod memory (8GiB). 2GB balances cache hits and OS memory needs.
+    shared_buffers: 2GB
+    # Guides query planner on available OS cache; set to ~50-75% of pod memory. 4GB reflects realistic pod limits.
+    effective_cache_size: 4GB
+    # Memory for VACUUM/INDEX operations; set to ~5-10% of pod memory. 512MB is sufficient for 1.2GB DB.
+    maintenance_work_mem: 512MB
+    # Per-operation memory for sorts/joins; set to ~ (0.25 * pod memory) / max_connections. 16MB supports 50 connections safely.
+    work_mem: 16MB
+    # Max concurrent connections; each uses ~5-10MB. Reduced from 100 to lower overhead; use PgBouncer if more clients needed.
+    max_connections: 300
+    # Limits TimescaleDB background jobs (e.g., compression); set to 4-8 to reduce memory spikes.
+    timescaledb.max_background_workers: 8
+    # Required for TimescaleDB and query monitoring; no memory impact.
+    shared_preload_libraries: "timescaledb,pg_stat_statements"

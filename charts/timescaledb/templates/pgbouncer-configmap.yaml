@@ -1,0 +1,64 @@
+{{- if .Values.pgbouncer.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "timescale.pgbouncer.fullname" . }}-config
+  labels:
+    {{- include "timescale.pgbouncer.labels" . | nindent 4 }}
+data:
+  pgbouncer.ini: |
+    [databases]
+    {{ .Values.postgres.database }} = host={{ include "timescale.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local port={{ .Values.postgres.port }} dbname={{ .Values.postgres.database }}
+    * = host={{ include "timescale.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local port={{ .Values.postgres.port }}
+
+    [pgbouncer]
+    listen_addr = *
+    listen_port = 5432
+    auth_type = md5
+    auth_file = /etc/pgbouncer/userlist.txt
+    
+    # Pool mode
+    pool_mode = {{ .Values.pgbouncer.config.poolMode }}
+    
+    # Connection limits
+    max_client_conn = {{ .Values.pgbouncer.config.maxClientConn }}
+    default_pool_size = {{ .Values.pgbouncer.config.defaultPoolSize }}
+    min_pool_size = {{ .Values.pgbouncer.config.minPoolSize }}
+    reserve_pool_size = {{ .Values.pgbouncer.config.reservePoolSize }}
+    max_db_connections = {{ .Values.pgbouncer.config.maxDbConnections }}
+    max_user_connections = {{ .Values.pgbouncer.config.maxUserConnections }}
+    
+    # Timeouts
+    server_idle_timeout = {{ .Values.pgbouncer.config.serverIdleTimeout }}
+    server_lifetime = {{ .Values.pgbouncer.config.serverLifetime }}
+    server_connect_timeout = {{ .Values.pgbouncer.config.serverConnectTimeout }}
+    query_timeout = {{ .Values.pgbouncer.config.queryTimeout }}
+    client_idle_timeout = {{ .Values.pgbouncer.config.clientIdleTimeout }}
+    
+    # Logging
+    log_connections = {{ .Values.pgbouncer.config.logConnections }}
+    log_disconnections = {{ .Values.pgbouncer.config.logDisconnections }}
+    log_pooler_errors = {{ .Values.pgbouncer.config.logPoolerErrors }}
+    stats_period = {{ .Values.pgbouncer.config.statsPeriod }}
+    verbose = {{ .Values.pgbouncer.config.verbose }}
+    
+    # Admin configuration
+    admin_users = {{ .Values.postgres.user }}
+    stats_users = {{ .Values.postgres.user }}
+    
+    # Disable DNS lookups for better performance
+    server_reset_query = DISCARD ALL
+    server_check_query = SELECT 1
+    server_check_delay = 30
+    
+    # Application name support
+    application_name_add_host = 1
+    
+    # Ignore startup parameters
+    ignore_startup_parameters = extra_float_digits
+{{- if .Values.pgbouncer.customConfig }}
+
+    # Custom configuration
+{{ .Values.pgbouncer.customConfig | indent 4 }}
+{{- end }}
+{{- end }}

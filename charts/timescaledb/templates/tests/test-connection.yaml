@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "timescale.fullname" . }}-test-connection"
+  labels:
+    {{- include "timescale.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  restartPolicy: Never
+  containers:
+    - name: postgres-test
+      image: postgres:17
+      command:
+        - /bin/bash
+        - -c
+        - |
+          pg_isready -h {{ include "timescale.fullname" . }} -p {{ .Values.service.port }} -U {{ .Values.postgres.user }}
+          if [ $? -eq 0 ]; then
+            echo "TimescaleDB connection test passed"
+            exit 0
+          else
+            echo "TimescaleDB connection test failed"
+            exit 1
+          fi
+      env:
+        - name: PGPASSWORD
+          value: {{ .Values.postgres.password | quote }}

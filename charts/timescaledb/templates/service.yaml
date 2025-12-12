@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "timescale.fullname" . }}
+  labels:
+    {{- include "timescale.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.postgres.port }}
+      protocol: TCP
+      name: postgresql
+    {{- if .Values.monitoring.enabled }}
+    - port: {{ .Values.monitoring.postgresExporter.port }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+    {{- end }}
+  selector:
+    {{- include "timescale.selectorLabels" . | nindent 4 }}

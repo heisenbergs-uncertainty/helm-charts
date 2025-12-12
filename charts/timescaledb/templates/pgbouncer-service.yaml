@@ -1,0 +1,17 @@
+{{- if .Values.pgbouncer.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "timescale.pgbouncer.fullname" . }}
+  labels:
+    {{- include "timescale.pgbouncer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.pgbouncer.service.type }}
+  ports:
+    - port: {{ .Values.pgbouncer.service.port }}
+      targetPort: pgbouncer
+      protocol: TCP
+      name: pgbouncer
+  selector:
+    {{- include "timescale.pgbouncer.selectorLabels" . | nindent 4 }}
+{{- end }}

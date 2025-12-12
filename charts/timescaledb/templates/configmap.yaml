@@ -1,0 +1,176 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "timescale.fullname" . }}-postgres-exporter-config
+  labels:
+    {{- include "timescale.labels" . | nindent 4 }}
+data:
+  queries.yaml: |
+    # TimescaleDB specific queries for postgres_exporter
+
+    # TimescaleDB hypertable information
+    timescaledb_hypertables:
+      query: |
+        SELECT
+          schemaname,
+          tablename,
+          num_chunks,
+          table_bytes,
+          index_bytes,
+          total_bytes
+        FROM timescaledb_information.hypertables h
+        LEFT JOIN timescaledb_information.chunks_detailed_size cds ON h.hypertable_name = cds.hypertable_name
+      metrics:
+        - schemaname:
+            usage: "LABEL"
+            description: "Schema name of the hypertable"
+        - tablename:
+            usage: "LABEL"
+            description: "Table name of the hypertable"
+        - num_chunks:
+            usage: "GAUGE"
+            description: "Number of chunks in the hypertable"
+        - table_bytes:
+            usage: "GAUGE"
+            description: "Size of table data in bytes"
+        - index_bytes:
+            usage: "GAUGE"
+            description: "Size of index data in bytes"
+        - total_bytes:
+            usage: "GAUGE"
+            description: "Total size in bytes"
+
+    # TimescaleDB compression statistics
+    timescaledb_compression:
+      query: |
+        SELECT
+          hypertable_schema,
+          hypertable_name,
+          uncompressed_heap_size,
+          uncompressed_index_size,
+          uncompressed_total_size,
+          compressed_heap_size,
+          compressed_index_size,
+          compressed_total_size,
+          CASE
+            WHEN uncompressed_total_size > 0
+            THEN (uncompressed_total_size - compressed_total_size)::float / uncompressed_total_size * 100
+            ELSE 0
+          END as compression_ratio
+        FROM timescaledb_information.compression_settings cs
+        JOIN timescaledb_information.hypertables h ON cs.hypertable_name = h.hypertable_name
+      metrics:
+        - hypertable_schema:
+            usage: "LABEL"
+            description: "Schema of the compressed hypertable"
+        - hypertable_name:
+            usage: "LABEL"
+            description: "Name of the compressed hypertable"
+        - uncompressed_heap_size:
+            usage: "GAUGE"
+            description: "Uncompressed heap size in bytes"
+        - uncompressed_index_size:
+            usage: "GAUGE"
+            description: "Uncompressed index size in bytes"
+        - uncompressed_total_size:
+            usage: "GAUGE"
+            description: "Total uncompressed size in bytes"
+        - compressed_heap_size:
+            usage: "GAUGE"
+            description: "Compressed heap size in bytes"
+        - compressed_index_size:
+            usage: "GAUGE"
+            description: "Compressed index size in bytes"
+        - compressed_total_size:
+            usage: "GAUGE"
+            description: "Total compressed size in bytes"
+        - compression_ratio:
+            usage: "GAUGE"
+            description: "Compression ratio percentage"
+
+    # TimescaleDB job statistics
+    timescaledb_jobs:
+      query: |
+        SELECT
+          job_id,
+          application_name,
+          schedule_interval,
+          max_runtime,
+          last_run_status,
+          total_runs,
+          total_successes,
+          total_failures
+        FROM timescaledb_information.jobs
+      metrics:
+        - job_id:
+            usage: "LABEL"
+            description: "Job ID"
+        - application_name:
+            usage: "LABEL"
+            description: "Application name of the job"
+        - schedule_interval:
+            usage: "LABEL"
+            description: "Schedule interval"
+        - max_runtime:
+            usage: "LABEL"
+            description: "Maximum runtime"
+        - last_run_status:
+            usage: "LABEL"
+            description: "Last run status"
+        - total_runs:
+            usage: "COUNTER"
+            description: "Total number of runs"
+        - total_successes:
+            usage: "COUNTER"
+            description: "Total number of successful runs"
+        - total_failures:
+            usage: "COUNTER"
+            description: "Total number of failed runs"
+
+    # PostgreSQL connection statistics
+    pg_stat_activity:
+      query: |
+        SELECT
+          state,
+          COUNT(*) as connections
+        FROM pg_stat_activity
+        WHERE state IS NOT NULL
+        GROUP BY state
+      metrics:
+        - state:
+            usage: "LABEL"
+            description: "Connection state"
+        - connections:
+            usage: "GAUGE"
+            description: "Number of connections in this state"
+
+    # PostgreSQL statement statistics (requires pg_stat_statements)
+    pg_stat_statements_top:
+      query: |
+        SELECT
+          query,
+          calls,
+          total_time,
+          mean_time,
+          rows
+        FROM pg_stat_statements
+        ORDER BY total_time DESC
+        LIMIT 10
+      metrics:
+        - query:
+            usage: "LABEL"
+            description: "SQL query"
+        - calls:
+            usage: "COUNTER"
+            description: "Number of times executed"
+        - total_time:
+            usage: "COUNTER"
+            description: "Total time spent in milliseconds"
+        - mean_time:
+            usage: "GAUGE"
+            description: "Mean time per execution in milliseconds"
+        - rows:
+            usage: "COUNTER"
+            description: "Total rows retrieved or affected"
+{{- end }}
