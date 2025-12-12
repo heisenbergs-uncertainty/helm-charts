@@ -143,10 +143,10 @@ backend:
   # TODO: Add ability to reference existing claim
   persistence:
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     annotations": {}
     storageClass: "standard"
-    path: "/Users/matthewholden/streampipes-k8s"
+    path: "/Users/me/streampipes-k8s"
     size: 1Gi
 
 ui:
@@ -306,20 +306,18 @@ streampipes:
     # If not empty, must be at least 35 characters long
     secret:
 
-
   encryption:
     # If left empty will generate a random secret
     passcode:
-
 
   broker:
     # Set the message broker for default communication in streampipes
     # Can be kafka, nats, pulsar
     type: "kafka"
 
-proxy: http://proxy.cat.com:80
+proxy: http://proxy.corp.com:8080
 
-noProxy: 127.0.0.0/8\\,10.0.0.0/8\\,cattle-system.svc\\,172.16.0.0/12\\,10.223.0.0/16\\,192.168.0.0/16\\,.svc\\,.cluster.local
+noProxy: 127.0.0.0/8\\,10.0.0.0/8\\,cattle-system.svc\\,172.16.0.0/12\\,192.168.0.0/16\\,.svc\\,.cluster.local
 
 kafka:
   enabled: false
@@ -357,7 +355,7 @@ couchdb:
   persistentVolume:
     enabled: "false"
 
-    accessMode: [ "ReadWriteOnce" ]
+    accessMode: ["ReadWriteOnce"]
 
     size: "10Gi"
 
@@ -407,7 +405,6 @@ externalInfluxdb:
   admin:
     password:
     token:
-
 
   existingSecret: influxdb-secret
 
