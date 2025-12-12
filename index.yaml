@@ -738,4 +738,32 @@ entries:
     urls:
     - https://github.com/what-is-a-theostack/helm-charts/releases/download/streampipes-0.97.0/streampipes-0.97.0.tgz
     version: 0.97.0
-generated: "2025-12-04T20:24:27.673832387Z"
+  timescaledb:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: pg17
+    created: "2025-12-12T04:13:43.552655755Z"
+    description: TimescaleDB - High-performance time-series database built on PostgreSQL
+    digest: c28e8f7e45b9a70abc4fcfcece4de93cc58a89e21509ec95a9f15a9d6e2ef831
+    home: https://www.timescale.com/
+    keywords:
+    - timescale
+    - timescaledb
+    - postgresql
+    - time-series
+    - database
+    - analytics
+    maintainers:
+    - email: support@timescale.com
+      name: TimescaleDB Team
+    - email: matthewreedholden@icloud.com
+      name: Matthew Holden
+    name: timescaledb
+    sources:
+    - https://github.com/timescale/timescaledb
+    type: application
+    urls:
+    - https://github.com/heisenbergs-uncertainty/helm-charts/releases/download/timescaledb-1.0.0/timescaledb-1.0.0.tgz
+    version: 1.0.0
+generated: "2025-12-12T04:13:43.55271703Z"
